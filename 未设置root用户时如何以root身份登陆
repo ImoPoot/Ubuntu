@@ -1,0 +1,32 @@
+一、Ubuntu设置root密码：
+
+1.桌面空白处右键菜单 点击“打开终端“。
+
+2.输入命令 "sudo passwd root"，提示输入当前用户密码。
+
+3.提示"输入新的UNIX密码"，此时输入要设置的root密码，提示"重新输入新的UNIX密码"此时再输入一次root密码。
+
+4.提示 "passwd：已成功更新密码"，运行命令 “su root”，提示“密码："此时输入刚刚设置的root密码回车，切换root用户成功。
+
+5.此时重启计算机，使用root登陆图形界面提示"抱歉，认证失败，请重试，无法登陆图形界面。
+
+二、设置root用户登陆图形界面。
+
+1.在桌面空白处点击右键菜单"打开终端"。
+
+2.运行命令"sudo vi /etc/pam.d/gdm-autologin"。
+
+3.注释行 "auth requied pam_succeed_if.so user != root quiet success"。
+
+4.运行命令"sudo vi /etc/pam.d/gdm-password"。
+
+5.注释行 "auth requied pam_succeed_if.so user != root quiet success"。
+
+6.此时重启计算机，使用root账户登陆，出现错误提示：Error found when loading/root/.profile:mesg: ttyname失败: 对设备不适当的ioctl操作，As a result the session will not be configured correctly.You shoud fix the problem as soon as feasible。
+
+7.在桌面空白处点击右键菜单"打开终端"。
+
+8.运行命令"sudo vi /root/.profile"。
+
+9.在行"mesg n || true"前添加"tty -s && "，变为"tty -s && mesg n || true"，此时重启计算机，使用root账户登陆正常。
+
